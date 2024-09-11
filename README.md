@@ -40,3 +40,20 @@ A pasta `front-funcionario` contém a interface voltada para os funcionários, t
 ## 3. Pasta `back`
 A pasta `back` contém o backend da aplicação, responsável por gerenciar a lógica de negócios, autenticação e conexão com o banco de dados, desenvolvida em **Django**.
 ### Como iniciar o projeto:
+1. Navegue até a pasta `backend`, crie um ambiente virtual com Python e o ative:
+   ```bash
+   cd front-funcionario
+   pyhton3 -m venv env
+   source env/bin/activate
+   ```
+2. Instale os requisitos necessários:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Migre o banco de dados e ative o servidor:
+   ```bash
+   python3 manage.py makemigrations
+   python3 manage.py migrate
+   python3 manage.py runserver
+   ```
+   O servidor deve iniciar em localhost:8000
