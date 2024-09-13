@@ -48,15 +48,15 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = False
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
+    "DEFAULT_AUTHENTICATION_CLASSES": [(
         'rest_framework_simplejwt.authentication.JWTAuthentication'
-    ),
-    "DEFAULT_PERMISSION_CLASSES": (
+    )],
+    "DEFAULT_PERMISSION_CLASSES": [(
         "rest_framework.permissions.IsAuthenticated"
-    )
+    )]
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -87,6 +87,7 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
 
     'dj_rest_auth',
     'dj_rest_auth.registration',
@@ -176,6 +177,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
