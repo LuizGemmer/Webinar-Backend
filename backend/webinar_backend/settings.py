@@ -96,7 +96,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     ## Custom Apps
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
+    'courses.apps.CoursesConfig'
 ]
 
 MIDDLEWARE = [
