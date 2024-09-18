@@ -1,4 +1,4 @@
-import ComponenteTesteLink from '@/components/ComponenteTesteLink'
+import ComponenteTesteLink from "@/components/ComponenteTesteLink";
 
 export default function HomeScreen() {
   return (
@@ -6,5 +6,5 @@ export default function HomeScreen() {
       <span>Pagina home - funcionario</span>
       <ComponenteTesteLink href="/login" label="Ir para pagina login" />
     </div>
-  )
+  );
 }
