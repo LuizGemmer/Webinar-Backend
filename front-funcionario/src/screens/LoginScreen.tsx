@@ -1,4 +1,6 @@
-import { Input } from "@/components/ui/input";
+import React from "react";
+import { InputText } from "primereact/inputtext";
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 
 import {
   Card,
@@ -9,9 +11,12 @@ import {
 } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+
+import styles from "../styles/styles.module.scss";
 
 export default function LoginScreen() {
+  const handleLogin = () => {};
+
   return (
     <div
       style={{
@@ -28,7 +33,7 @@ export default function LoginScreen() {
           maxWidth: "28rem",
           padding: "1.5rem",
           boxShadow:
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1)",
         }}
       >
         <CardHeader>
@@ -52,18 +57,18 @@ export default function LoginScreen() {
             }}
           >
             <div style={{ flexDirection: "column", display: "flex" }}>
-              <Label style={{ color: "#000" }}>Email</Label>
-              <Input
-                style={{ padding: 5, borderRadius: 5, color: "#000" }}
+              <span style={{ color: "#000" }}>Email</span>
+              <InputText
+                className={styles.input}
                 type="email"
                 id="Email"
                 placeholder="Email"
               />
             </div>
             <div style={{ flexDirection: "column", display: "flex" }}>
-              <Label style={{ color: "#000" }}>Senha</Label>
-              <Input
-                style={{ padding: 5, borderRadius: 5, color: "#000" }}
+              <span style={{ color: "#000" }}>Senha</span>
+              <InputText
+                className={styles.input}
                 type="password"
                 id="Senha"
                 placeholder="Senha"
@@ -79,33 +84,10 @@ export default function LoginScreen() {
             marginTop: "2rem",
           }}
         >
-          <Button
-            style={{
-              width: "100%",
-              backgroundColor: "#ffffff",
-              color: "#000",
-              border: "1px solid #d1d5db",
-              padding: "0.5rem",
-              borderRadius: "0.375rem",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
+          <Button className={styles.primaryButton} onClick={handleLogin}>
             Entrar
           </Button>
-          <Button
-            style={{
-              width: "100%",
-              backgroundColor: "#6b7280",
-              color: "#fff",
-              padding: "0.5rem",
-              borderRadius: "0.375rem",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            Cadastrar
-          </Button>
+          <Button className={styles.secondaryButton}>Cadastrar</Button>
         </CardFooter>
       </Card>
     </div>
