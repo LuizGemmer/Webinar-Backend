@@ -34,7 +34,7 @@ AUTH_USER_MODEL = 'user.User'
 SITE_ID = 1
 
 SIMPLE_JWT = {
-    "ACESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "ACESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKEN": True,
     "BLACKLIST_AFTER_ROTATION": True,
