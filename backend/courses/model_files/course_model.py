@@ -3,7 +3,6 @@ import uuid
 from django.db import models
 from django.conf import settings
 
-from .function_model import Function
 
 class Course(models.Model):
     '''
@@ -63,9 +62,4 @@ class Course(models.Model):
         settings.AUTH_USER_MODEL
         , on_delete = models.CASCADE
         , related_name = 'last_modified_courses'
-    )
-
-    function = models.ForeignKey(
-        Function
-        , on_delete = models.CASCADE
     )

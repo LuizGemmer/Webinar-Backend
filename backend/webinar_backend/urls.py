@@ -6,4 +6,5 @@ urlpatterns = [
     
     path("api/auth/", include('user.urls')),
     path("api/staff/", include('courses.urls')),
+    path("api/perms/", include('permissions.urls'))
 ]

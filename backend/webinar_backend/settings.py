@@ -97,7 +97,8 @@ INSTALLED_APPS = [
 
     ## Custom Apps
     'user.apps.UserConfig',
-    'courses.apps.CoursesConfig'
+    'courses.apps.CoursesConfig',
+    'permissions.apps.PermissionsConfig',
 ]
 
 MIDDLEWARE = [
