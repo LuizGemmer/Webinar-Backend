@@ -188,3 +188,58 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ADMIN = "admin"
+SUPERVISOR = "supervisor"
+MANAGER = "manager"
+VIEWER = "viewer"
+
+USER_PERMISSION_CHOICES = {
+        ADMIN: "admin",
+        SUPERVISOR: "supervisor",
+        MANAGER: "manager",
+        VIEWER: "viewer",
+    }
+
+USER_PERMISSION_CONFIG = {
+    ADMIN: {
+        "code": ADMIN
+        , "can_edit": True
+        , "can_create": True
+        , "can_delete": True
+        , "can_view_own_items": True
+        , "can_view_all_items": True
+        , "can_set_viewer_permissions": True
+        , "can_set_higher_permissions": True
+    },
+    SUPERVISOR: {
+        "code": SUPERVISOR
+        , "can_edit": True
+        , "can_create": True
+        , "can_delete": True
+        , "can_view_own_items": True
+        , "can_view_all_items": True
+        , "can_set_viewer_permissions": True
+        , "can_set_higher_permissions": False
+    },
+    MANAGER: {
+        "code": VIEWER
+        , "can_edit": False
+        , "can_create": False
+        , "can_delete": False
+        , "can_view_own_items": True
+        , "can_view_all_items": True
+        , "can_set_viewer_permissions": False
+        , "can_set_higher_permissions": False
+    },
+    VIEWER: {
+        "code": "admin"
+        , "can_edit": False
+        , "can_create": False
+        , "can_delete": False
+        , "can_view_own_items": True
+        , "can_view_all_items": False
+        , "can_set_viewer_permissions": False
+        , "can_set_higher_permissions": False
+    },
+}

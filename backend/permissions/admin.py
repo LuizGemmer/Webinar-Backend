@@ -6,3 +6,7 @@ from .models import *
 admin.site.register(Function)
 admin.site.register(Sector)
 admin.site.register(Subsector)
+admin.site.register(UserFunctionPermissions)
+admin.site.register(UserSubsectorPermissions)
+admin.site.register(UserSectorPermissions)
+
