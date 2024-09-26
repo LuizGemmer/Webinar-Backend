@@ -63,3 +63,6 @@ class Course(models.Model):
         , on_delete = models.CASCADE
         , related_name = 'last_modified_courses'
     )
+
+    def __str__(self) -> str:
+        return self.name

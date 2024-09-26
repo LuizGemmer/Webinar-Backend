@@ -22,7 +22,7 @@ class UserSubsectorPermissions(models.Model):
         , on_delete=models.CASCADE
     )
 
-    Subsector = models.ForeignKey(
+    subsector = models.ForeignKey(
         Subsector
         , on_delete=models.CASCADE
     )
@@ -52,3 +52,6 @@ class UserSubsectorPermissions(models.Model):
     last_modified_date = models.DateTimeField(
         auto_now=True
     )
+
+    def __str__(self) -> str:
+        return f'{self.user} - {self.subsector} - {self.permission_type}'

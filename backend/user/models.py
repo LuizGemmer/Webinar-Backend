@@ -48,3 +48,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+
+    def __str__(self) -> str:
+        return self.email

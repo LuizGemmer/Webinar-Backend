@@ -52,3 +52,6 @@ class UserFunctionPermissions(models.Model):
     last_modified_date = models.DateTimeField(
         auto_now=True
     )
+
+    def __str__(self) -> str:
+        return f'{self.user} - {self.function} - {self.permission_type}'

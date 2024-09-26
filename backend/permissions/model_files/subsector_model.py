@@ -37,3 +37,6 @@ class Subsector(models.Model):
         Sector
         , on_delete = models.CASCADE
     )
+
+    def __str__(self) -> str:
+        return f'{self.sector} - {self.name}'

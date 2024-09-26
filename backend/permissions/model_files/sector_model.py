@@ -25,3 +25,6 @@ class Sector(models.Model):
     description = models.TextField(
         help_text = "Specify what part of the organization this sector represents."
     )
+
+    def __str__(self) -> str:
+        return self.name
