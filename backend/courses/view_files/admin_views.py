@@ -5,8 +5,8 @@ from rest_framework.generics import (
     , ListAPIView
 )
 
-from .models import Course
-from .serializers_files.courses_serializers import AdminCourseSerializer
+from ..models import Course
+from ..serializers_files.courses_serializers import AdminCourseSerializer
 
 # Create your views here.
 class AdminCoursesList(ListAPIView):

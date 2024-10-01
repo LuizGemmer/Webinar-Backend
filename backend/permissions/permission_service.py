@@ -1,6 +1,14 @@
 from .models import *
 
-from django.db import settings
+from django.conf import settings
+
+from .models import UserFunctionPermissions
 
 class PermissionService():
-    pass
+
+    def get_user_functions(user):
+        '''
+        Get user function permissions.
+        Returns a list of those function permissions
+        '''
+        return UserFunctionPermissions.objects.filter(user=user)
