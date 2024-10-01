@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
 
+import "primereact/resources/themes/bootstrap4-dark-blue/theme.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import HomeScreen from "@/screens/HomeScreen";
-import LoginScreen from "@/screens/LoginScreen";
+import Login from "@/screens/Login";
+import { ToastContainer } from "react-toastify";
 
 export default function LoginPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -24,5 +26,10 @@ export default function LoginPage() {
     return <div>Carregando...</div>;
   }
 
-  return isAuthenticated ? <HomeScreen /> : <LoginScreen />;
+  return (
+    <>
+      {isAuthenticated ? <HomeScreen /> : <Login />}
+      <ToastContainer />
+    </>
+  );
 }
