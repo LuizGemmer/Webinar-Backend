@@ -1,13 +1,13 @@
 {
     "builds": [{
-      "src": "backend/webinar_app/wsgi.py",
+      "src": "webinar_app/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.12.3" }
     }],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "backend/webinar_app/wsgi.py"
+        "dest": "webinar_app/wsgi.py"
       }
     ]
 }
