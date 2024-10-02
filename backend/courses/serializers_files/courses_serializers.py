@@ -17,7 +17,6 @@ class AdminCourseSerializer(serializers.ModelSerializer):
             , "last_modified_date"
             , "created_by"
             , "modified_by"
-            , "function"
         ]
         read_only_fields = [
             "id"
@@ -42,7 +41,6 @@ class UserCourseSerializer(serializers.ModelSerializer):
             , "last_modified_date"
             , "created_by"
             , "modified_by"
-            , "function"
         ]
         read_only_fields = [
             "id"

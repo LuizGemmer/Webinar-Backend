@@ -10,7 +10,6 @@ class AdminFunctionSerializer(serializers.ModelSerializer):
             "id"
             , "name"
             , "description"
-            , "subsector"
             , "date_created"
             , "is_active"
         ]

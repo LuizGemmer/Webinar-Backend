@@ -56,7 +56,8 @@ REST_FRAMEWORK = {
     )],
     "DEFAULT_PERMISSION_CLASSES": [(
         "rest_framework.permissions.IsAuthenticated"
-    )]
+    )],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -94,6 +95,9 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
 
     'corsheaders',
+
+    ## Swagger
+    'drf_spectacular',
 
     ## Custom Apps
     'user.apps.UserConfig',
@@ -242,4 +246,12 @@ USER_PERMISSION_CONFIG = {
         , "can_set_viewer_permissions": False
         , "can_set_higher_permissions": False
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
