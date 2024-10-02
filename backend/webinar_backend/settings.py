@@ -135,7 +135,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'webinar_backend.wsgi.application'
+WSGI_APPLICATION = 'webinar_backend.wsgi.app'
 
 
 # Database
