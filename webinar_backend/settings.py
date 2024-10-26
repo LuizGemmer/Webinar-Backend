@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-1vu#*j_=c0)g3g)ek#(%pnp#l#zup@jfi*w^0x8b7z--)t8kfu
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1", ".vercel.app"
+    "127.0.0.1", ".vercel.app", "localhost"
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -104,6 +104,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'courses.apps.CoursesConfig',
     'permissions.apps.PermissionsConfig',
+    'quiz.apps.QuizConfig',
 ]
 
 MIDDLEWARE = [
@@ -256,3 +257,5 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 }
+
+QUIZ_RELATED_CLASS_MODEL = "courses.Course"
