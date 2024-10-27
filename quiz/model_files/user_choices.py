@@ -8,7 +8,7 @@ from .user_quiz_scores import UserQuizScores
 from .question import Question
 from .choice import Choices
 
-class UserChoises(models.Model):
+class UserChoices(models.Model):
     '''
     UserChoices table model.
     Stores the choices of the user in each question/quiz.
@@ -68,8 +68,12 @@ class UserChoises(models.Model):
     last_modified_date = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        if self.pk and self.is_submited:
-            raise ValidationError("Cannot update an already submited answer!")
+        # Checks if the choice was already submited, if true, prevents the update
+        if self.pk:
+            # TODO check for a way to do this without this extra query to the database
+            existing_instance = UserChoices.objects.get(id=self.id)
+            if existing_instance.is_submited:
+                raise ValidationError("Cannot update an already submited answer!")
 
         # TODO check if a choice already exists for the user and user_quiz_score
 

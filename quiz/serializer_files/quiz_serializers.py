@@ -2,6 +2,8 @@
 from rest_framework import serializers
 from ..models import Quiz
 
+from .question_serializers import QuestionCRUDSerializer
+
 class QuizCRUDSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz

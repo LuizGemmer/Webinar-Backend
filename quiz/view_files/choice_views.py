@@ -1,8 +1,12 @@
 # views.py
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
+
 from ..models import Choices
-from ..serializer_files.choice_serializers import ChoicesCRUDSerializer
+from ..serializer_files.choice_serializers import (
+    ChoicesCRUDSerializer
+    , UserChoicesSerializer
+)
 
 class ChoicesViewSet(viewsets.ModelViewSet):
     """
@@ -25,3 +29,11 @@ class ChoicesViewSet(viewsets.ModelViewSet):
         instance.is_active = False
         instance.modified_by = self.request.user
         instance.save(update_fields=['is_active', 'modified_by'])
+
+class GetChoicesByQuestion(generics.ListAPIView):
+    # TODO change serializer for one with less information, currently sending the info if the choice is correct or not
+    serializer_class = UserChoicesSerializer 
+
+    def get_queryset(self):
+        question_id = self.kwargs['id']
+        return Choices.objects.filter(question_id=question_id)

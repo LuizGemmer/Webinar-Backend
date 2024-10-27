@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 
 from django.db import models
 from django.conf import settings
@@ -35,10 +36,8 @@ class UserQuizScores(models.Model):
 
     date_submited = models.DateTimeField(null=True)
 
-    score = models.DecimalField(
+    score = models.FloatField(
         null=True
-        , decimal_places=2
-        , max_digits=3
         , help_text="The score of the user on the test, from 1 to 100."
     )
 
@@ -53,8 +52,12 @@ class UserQuizScores(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if self.pk and self.is_submited:
-            raise ValidationError("Cannot update an already submited answer!")
+        # Checks if the choice was already submited, if true, prevents the update
+        if self.pk:
+            # TODO check for a way to do this without this extra query to the database
+            existing_instance = UserQuizScores.objects.get(id=self.id)
+            if existing_instance.is_submited:
+                raise ValidationError("Cannot update an already submited answer!")
             
         super().save(*args, **kwargs)
 
@@ -66,3 +69,30 @@ class UserQuizScores(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user} - {self.quiz} - Submit: {self.date_submited}'
+
+    def calculate_score(self):
+        """
+        Calculates the user score based on the number of correct questions
+        score = questions in the quiz / correct answers * 100
+        """
+        question_count = self.quiz.question_count()
+
+        if question_count == 0:
+            raise ValidationError("cannot calculate the score of a quiz that has no questions!")
+
+        user_correct_choices = self.userchoices_set.filter(is_correct=True).count()
+        
+        user_score = user_correct_choices / question_count * 100
+
+        return round(user_score, 2)
+        
+    def quiz_score_above_required_score(self):
+        """
+        Checks if the score of the quiz atempt is greater or equal the quiz required grade
+        """
+        quiz_required_score = self.quiz.required_grade
+        
+        if self.score and quiz_required_score:
+            return self.score >= quiz_required_score
+        
+        raise ValidationError("Either the quiz score or the required grade of the quiz is null!")

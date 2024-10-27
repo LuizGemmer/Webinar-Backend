@@ -1,5 +1,5 @@
 # views.py
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from ..models import Quiz
 from ..serializer_files.quiz_serializers import QuizCRUDSerializer
@@ -25,3 +25,4 @@ class QuizViewSet(viewsets.ModelViewSet):
         instance.is_active = False
         instance.modified_by = self.request.user
         instance.save(update_fields=['is_active', 'modified_by'])
+

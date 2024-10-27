@@ -1,10 +1,10 @@
 # serializers.py
 from rest_framework import serializers
-from ..models import UserChoises
+from ..models import UserChoices
 
 class UserChoisesCRUDSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserChoises
+        model = UserChoices
         fields = '__all__'
         read_only_fields = [
             'user'

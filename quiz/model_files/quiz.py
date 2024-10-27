@@ -69,3 +69,6 @@ class Quiz(models.Model):
 
     def __str__(self) -> str:
         return f'{self.related_class} - {self.name}'
+
+    def question_count(self):
+        return self.question_set.count()

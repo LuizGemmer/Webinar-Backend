@@ -1,5 +1,5 @@
 # views.py
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from ..models import Question
 from ..serializer_files.question_serializers import QuestionCRUDSerializer
@@ -25,3 +25,10 @@ class QuestionViewSet(viewsets.ModelViewSet):
         instance.is_active = False
         instance.modified_by = self.request.user
         instance.save(update_fields=['is_active', 'modified_by'])
+
+class GetQuestionsByQuiz(generics.ListAPIView):
+    serializer_class = QuestionCRUDSerializer
+
+    def get_queryset(self):
+        quiz_id = self.kwargs['id']
+        return Question.objects.filter(quiz_id=quiz_id)
