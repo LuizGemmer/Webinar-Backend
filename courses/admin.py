@@ -6,4 +6,6 @@ from .models import *
 admin.site.register(Course)
 admin.site.register(UserCourseHistory)
 admin.site.register(CourseFunction)
+admin.site.register(CourseClass)
+
 
