@@ -1,17 +1,23 @@
-from django.urls import path
+from django.urls import path, include
 
 from .view_files.fuctions_views import *
 from .view_files.sector_views import *
 from .view_files.subsector_views import *
 
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+from .view_files.sector_views import SectorViewSet, GetUserFunctionListView
+
+sector_router = DefaultRouter()
+sector_router.register(r'sector', SectorViewSet, basename="sector")
+
 # Create your views here.
 urlpatterns = [
-    path("sector/", AdminSectorList.as_view(), name="staff_sector_list_rest"),
-    path("sector/create/", AdminSectorCreate.as_view(), name="staff_sector_create_rest"),
-    path("sector/<uuid:id>/", AdminSectorDetails.as_view(), name="staff_sector_details_rest"),
-    path("sector/delete/<uuid:id>/", AdminSectorDetails.as_view(), name="staff_sector_delete_rest"),
-    path("sector/update/<uuid:id>/", AdminSectorDetails.as_view(), name="staff_sector_update_rest"),
+    path('sector/get_logged_user_functions/', GetUserFunctionListView.as_view(), name="sector-get-logged-user-functions"),
+    path('', include(sector_router.urls)),
 
+    #TODO transform all into viewsets
     path("subsector/", AdminSubsectorList.as_view(), name="staff_subsector_list_rest"),
     path("subsector/create/", AdminSubsectorCreate.as_view(), name="staff_subsector_create_rest"),
     path("subsector/<uuid:id>/", AdminSubsectorDetails.as_view(), name="staff_subsector_details_rest"),

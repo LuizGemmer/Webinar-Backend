@@ -14,3 +14,9 @@ class AdminSectorSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id"
         ]
+
+class UserSectorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Sector
+        fields = ['name']

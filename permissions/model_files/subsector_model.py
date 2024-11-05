@@ -36,6 +36,7 @@ class Subsector(models.Model):
     sector = models.ForeignKey(
         Sector
         , on_delete = models.CASCADE
+        , related_name="subsectors"
     )
 
     def __str__(self) -> str:

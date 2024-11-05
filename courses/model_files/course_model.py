@@ -49,6 +49,7 @@ class Course(models.Model):
     is_active = models.BooleanField(
         help_text="Soft delete boolean"
     ) 
+    
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified_date = models.DateTimeField(auto_now=True)
     
@@ -66,3 +67,8 @@ class Course(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+    def delete(self, *args, **kwargs):
+        # Soft delete - set is_active to False
+        self.is_active = False
+        self.save(update_fields=['is_active'])

@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from ..models import Course
 
-class AdminCourseSerializer(serializers.ModelSerializer):
+class StaffCourseSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = Course

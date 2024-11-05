@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from ..models import Subsector
 
+from .sector_serializers import UserSectorSerializer
+
 class AdminSubsectorSerializer(serializers.ModelSerializer):
 
     class Meta():
@@ -18,3 +20,10 @@ class AdminSubsectorSerializer(serializers.ModelSerializer):
             "id"
             , "date_created"
         ]
+
+class UserSubsectorSerializer(serializers.ModelSerializer):
+    sector = UserSectorSerializer()
+
+    class Meta:
+        model = Subsector
+        fields = ['name', 'sector']
