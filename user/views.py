@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
 from .models import User
 from .user_serializer import UserProfileSerializer
@@ -15,3 +15,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             return User.objects.all()
         else:
             return User.objects.filter(id=user.id)
+        
+class GetCurrentUserProfile(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserProfileSerializer
+
+    def get_queryset(self):
+        return User.objects.get_queryset(id=self.request.user.id)

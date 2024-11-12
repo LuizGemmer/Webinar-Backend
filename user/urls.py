@@ -10,10 +10,10 @@ from rest_framework_simplejwt.views import (
     , TokenObtainPairView
 )
 
-from .views import UserProfileViewSet
+from .views import UserProfileViewSet, GetCurrentUserProfile
 
 router = DefaultRouter()
-router.register(r'profile', UserProfileViewSet, basename='user-profile')
+router.register(r'profile', UserProfileViewSet, basename='user-profile'),
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name="auth_obtain_rest"),
@@ -21,6 +21,8 @@ urlpatterns = [
     path('token/verify/', TokenVerifyView.as_view(), name="auth_verify_rest"),
     path('register/', RegisterView.as_view(), name="auth_register_rest"),
     path('logout/', LogoutView.as_view(), name="auth_logout_rest"),
+
+    path('get_current_user_profile', GetCurrentUserProfile.as_view(), name="get-current-user-profile"),
 
     path('', include(router.urls))
 ]
