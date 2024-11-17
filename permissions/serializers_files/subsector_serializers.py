@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from ..models import Subsector
 
-from .sector_serializers import UserSectorSerializer
+from .function_serializers import FunctionSerializer
 
 class AdminSubsectorSerializer(serializers.ModelSerializer):
 
@@ -21,9 +21,14 @@ class AdminSubsectorSerializer(serializers.ModelSerializer):
             , "date_created"
         ]
 
-class UserSubsectorSerializer(serializers.ModelSerializer):
-    sector = UserSectorSerializer()
+class SubsectorSerializer(serializers.ModelSerializer):
+    functions = serializers.SerializerMethodField()
 
     class Meta:
         model = Subsector
-        fields = ['name', 'sector']
+        fields = ['id', 'name', 'functions']
+
+    def get_functions(self, obj):
+        user = self.context.get('user')
+        functions = obj.functions.filter(user_functions__user=user)
+        return FunctionSerializer(functions, many=True, context={'user': user}).data

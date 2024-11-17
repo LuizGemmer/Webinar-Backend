@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG') == 1
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1", ".vercel.app", "localhost"
@@ -37,7 +37,7 @@ AUTH_USER_MODEL = 'user.User'
 SITE_ID = 1
 
 SIMPLE_JWT = {
-    "ACESS_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKEN": True,
     "BLACKLIST_AFTER_ROTATION": True,

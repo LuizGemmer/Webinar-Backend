@@ -1,12 +1,11 @@
 
-from rest_framework import permissions
+from rest_framework import permissions, generics
 from rest_framework import viewsets 
-from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from ..models import Sector, UserFunctionPermissions, Function
+from ..models import Sector, UserFunctionPermissions
 
-from ..serializers_files.sector_serializers import AdminSectorSerializer
+from ..serializers_files.sector_serializers import AdminSectorSerializer, SectorSerializer
 #
 # Sector views
 
@@ -17,57 +16,56 @@ class SectorViewSet(viewsets.ModelViewSet):
     queryset = Sector.objects.all()
     serializer_class = AdminSectorSerializer
 
-    def perform_create(self, serializer):
-        # Set created_by and modified_by on creation
-        serializer.save(created_by=self.request.user, modified_by=self.request.user)
+class GetUserFunctionListView(generics.ListAPIView):
+    serializer_class = SectorSerializer
 
-    def perform_update(self, serializer):
-        # Update modified_by on update
-        serializer.save(modified_by=self.request.user)
-
-class GetUserFunctionListView(APIView):
-    def get(self, request):
-        # TODO find a way to make better code
-        # Get the logged-in user
-        user = request.user
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     # Fetch all functions related to the user via UserFunctionPermissions
+    #     user_functions = UserFunctionPermissions.objects.filter(user=user).select_related("function__Subsector__sector")
         
-        # Step 1: Get all functions related to the user via UserFunction table
-        user_functions = UserFunctionPermissions.objects.filter(user=user).select_related("function__Subsector__sector")
+    #     # Use a set to track sectors and subsectors
+    #     sector_dict = {}
 
-        # Create a dictionary to hold sectors and their subsectors/functions
-        sector_dict = {}
+    #     for user_function in user_functions:
+    #         function = user_function.function
+    #         subsector = function.Subsector
+    #         sector = subsector.sector
 
-        for user_function in user_functions:
-            function = user_function.function
-            subsector = function.Subsector
-            sector = subsector.sector
+    #         if sector not in sector_dict:
+    #             sector_dict[sector] = {
+    #                 "id": sector.id,
+    #                 "sector": sector,
+    #                 "subsectors": {}
+    #             }
 
-            if sector.name not in sector_dict:
-                sector_dict[sector.name] = {
-                    "name": sector.name,
-                    "subsectors": {}
-                }
+    #         if subsector not in sector_dict[sector]["subsectors"]:
+    #             sector_dict[sector]["subsectors"][subsector] = {
+    #                 "id": subsector.id,
+    #                 "subsector": subsector,
+    #                 "functions": []
+    #             }
 
-            if subsector.name not in sector_dict[sector.name]["subsectors"]:
-                sector_dict[sector.name]["subsectors"][subsector.name] = {
-                    "name": subsector.name,
-                    "functions": []
-                }
+    #         sector_dict[sector]["subsectors"][subsector]["functions"].append(function)
 
-            sector_dict[sector.name]["subsectors"][subsector.name]["functions"].append(function.name)
+    #     # Format the queryset result
+    #     queryset = []
+    #     for sector_data in sector_dict.values():
+    #         subsectors_list = []
+    #         for subsector_data in sector_data["subsectors"].values():
+    #             subsector_data["subsector"].functions = subsector_data["functions"]
+    #             subsectors_list.append(subsector_data["subsector"])
 
-        # Convert the dictionary into a list of sectors
-        sectors = []
-        for sector_name, sector_data in sector_dict.items():
-            subsectors_list = []
-            for subsector_name, subsector_data in sector_data['subsectors'].items():
-                subsectors_list.append({
-                    "name": subsector_data['name'],
-                    "functions": subsector_data['functions']
-                })
-            sectors.append({
-                "name": sector_data['name'],
-                "subsectors": subsectors_list
-            })
+    #         sector_data["sector"].subsectors_list = subsectors_list
+    #         queryset.append(sector_data["sector"])
 
-        return Response(sectors)
+    #     return queryset
+
+    def list(self, request, *args, **kwargs):
+        sectors = Sector.objects.filter(
+            subsectors__functions__user_functions__user=request.user
+        ).prefetch_related(
+            'subsectors__functions__user_functions'
+        ).all().distinct()
+        serializer = SectorSerializer(sectors, many=True, context={'user': request.user})
+        return Response(serializer.data)

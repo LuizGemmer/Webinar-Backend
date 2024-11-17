@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 
 from .subsector_model import Subsector
+from django.conf import settings
 
 class Function(models.Model):
     '''
@@ -34,11 +35,12 @@ class Function(models.Model):
     ) 
     
     date_created = models.DateTimeField(auto_now_add=True)
-    
-    Subsector = models.ForeignKey(
+
+    subsector = models.ForeignKey(
         Subsector
         , on_delete = models.CASCADE
+        , related_name="functions"
     )
 
     def __str__(self) -> str:
-        return f'{self.Subsector} - {self.name}'
+        return f'{self.subsector} - {self.name}'

@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 
 from .sector_model import Sector
+from django.conf import settings
 
 class Subsector(models.Model):
     '''
@@ -32,7 +33,7 @@ class Subsector(models.Model):
     ) 
     
     date_created = models.DateTimeField(auto_now_add=True)
-    
+
     sector = models.ForeignKey(
         Sector
         , on_delete = models.CASCADE

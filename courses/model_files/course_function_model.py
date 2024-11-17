@@ -19,10 +19,11 @@ class CourseFunction(models.Model):
     function = models.ForeignKey(
         Function
         , on_delete=models.CASCADE
-        , related_name='functions'
+        , related_name='function_courses'
     )
 
     course = models.ForeignKey(
         Course
         , on_delete=models.CASCADE
+        , related_name="course_functions"
     )

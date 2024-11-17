@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 from .course_model import Course
 
@@ -57,10 +58,8 @@ class UserCourseHistory(models.Model):
         , help_text="Date this couse expires, requiring the user to redo it"
     )
 
-    status = models.CharField(
-        max_length=20,
-        default="Pending"
-    )
+    def status(self):
+        return self.is_submited and timezone.now() <= self.expire_date
 
     def is_current_valid_register(self):
         '''

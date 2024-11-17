@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 from .user_permission_types_model import UserPermissionTypes
 from ..models import Function
@@ -25,11 +26,17 @@ class UserFunctionPermissions(models.Model):
     function = models.ForeignKey(
         Function
         , on_delete=models.CASCADE
+        ,related_name="user_functions"
     )
 
     permission_type = models.CharField(
         max_length=20
         , choices=UserPermissionTypes.USER_PERMISSION_CHOICES
+    )
+
+    is_obsolete = models.BooleanField(
+        default=False
+        , help_text="When true, mark that the user does not need to review this function courses anymore"
     )
 
     created_by = models.ForeignKey(
@@ -55,3 +62,25 @@ class UserFunctionPermissions(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user} - {self.function} - {self.permission_type}'
+    
+    def percent_completed(self):
+        courses_to_complete = self.function.function_courses.all().count()
+        courses_completed = self.get_courses_completed().count()
+
+        return courses_completed / courses_to_complete
+    
+    def status(self):
+        if self.is_obsolete:
+            return "Obsolete"
+        
+        if self.percent_completed() == 1:
+            return "Apt"
+        else:
+            return "pending"
+        
+    def get_courses_completed(self):
+        return self.user.course_history.filter(
+            is_submited=True
+            , expire_date__gte=timezone.now()
+            , course__course_functions__function=self.function
+        ) 

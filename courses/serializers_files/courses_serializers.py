@@ -42,10 +42,4 @@ class UserCourseSerializer(serializers.ModelSerializer):
             , "created_by"
             , "modified_by"
         ]
-        read_only_fields = [
-            "id"
-            , "date_created"
-            , "last_modified_date"
-            , "created_by"
-            , "modified_by"
-        ]
+        read_only_fields = fields
