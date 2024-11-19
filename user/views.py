@@ -19,6 +19,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 class GetCurrentUserProfile(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
+    lookup_field = 'pk'
 
-    def get_queryset(self):
-        return User.objects.get_queryset(id=self.request.user.id)
+    def get_object(self):
+        return User.objects.get(pk=self.request.user.pk)

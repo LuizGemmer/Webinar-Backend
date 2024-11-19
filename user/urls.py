@@ -22,7 +22,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name="auth_register_rest"),
     path('logout/', LogoutView.as_view(), name="auth_logout_rest"),
 
-    path('get_current_user_profile', GetCurrentUserProfile.as_view(), name="get-current-user-profile"),
+    path('get_current_user_profile/', GetCurrentUserProfile.as_view(), name="get-current-user-profile"),
 
     path('', include(router.urls))
 ]
