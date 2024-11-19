@@ -47,7 +47,6 @@ class UserFunctionPermissions(models.Model):
 
     date_created = models.DateTimeField(
         auto_now_add=True
-        , editable=False
     )
 
     modified_by = models.ForeignKey(
@@ -83,4 +82,20 @@ class UserFunctionPermissions(models.Model):
             is_submited=True
             , expire_date__gte=timezone.now()
             , course__course_functions__function=self.function
-        ) 
+        )
+    
+    def save(self, *args, **kwargs):
+        # Check if an instance with the same user and function already exists
+        # Preventing duplicate permissions
+        existing = UserFunctionPermissions.objects.filter(user=self.user, function=self.function).first()
+
+        if existing and existing.id != self.id:
+            # Update the existing record
+            existing.permission_type = self.permission_type
+            existing.is_obsolete = self.is_obsolete
+            existing.modified_by = self.modified_by
+            existing.save()
+            return existing
+
+        # If no record exists, proceed with normal save
+        return super().save(*args, **kwargs)
