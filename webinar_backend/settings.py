@@ -265,4 +265,4 @@ SPECTACULAR_SETTINGS = {
     # OTHER SETTINGS
 }
 
-QUIZ_RELATED_CLASS_MODEL = "courses.Course"
+QUIZ_RELATED_CLASS_MODEL = "permissions.Function"
