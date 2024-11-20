@@ -26,6 +26,7 @@ class UserCourseHistory(models.Model):
     course = models.ForeignKey(
         Course
         , on_delete=models.CASCADE
+        ,related_name="user_history"
     )
 
     is_new_user = models.BooleanField(
@@ -59,7 +60,20 @@ class UserCourseHistory(models.Model):
     )
 
     def status(self):
-        return self.is_submited and timezone.now() <= self.expire_date
+        '''
+        evaluates the stauts of the course.
+        If the register is not the most recent one, or it is expired, returns expired
+        If it is not started (has no start date) or it is not yet submited, returns pending
+        If it is submited and the current valid register, returns done
+        '''
+        if not self.is_current_valid_register() or self.expire_date <= timezone.now().date():
+            "expired"
+
+        if self.start_date and not self.is_submited:
+            return "pending"
+        
+        if self.is_submited and self.is_current_valid_register():
+            return "done"
 
     def is_current_valid_register(self):
         '''
@@ -67,7 +81,9 @@ class UserCourseHistory(models.Model):
         The user model will store always the next review and the previous reviews of the course
         So this method returns if it is the current one
         '''
-        # TODO Implement
-        return True
+        now = timezone.now()
+        return not self.start_date or (
+            self.start_date <= now and self.expire_date >= now.date()
+        ) 
 
     
