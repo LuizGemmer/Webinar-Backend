@@ -6,7 +6,6 @@ class UserClassSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = CourseClass
-        fields = [
-            "id", "name", "course", "sequence_in_course", "class_file_type", "class_file"
-        ]
+        fields = '__all__'  # Include all fields or list specific fields
+        read_only_fields = ('id', 'date_created', 'last_modified_date', 'created_by', 'modified_by')  # Read-only fields
 

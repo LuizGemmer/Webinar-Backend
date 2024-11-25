@@ -1,4 +1,5 @@
 from rest_framework import viewsets, generics
+from rest_framework.parsers import FormParser, MultiPartParser
 
 from ..models import CourseClass
 from ..serializers_files.class_course_serializers import UserClassSerializer
@@ -9,6 +10,7 @@ class UserClassViewSet(viewsets.ModelViewSet):
     '''
     queryset = CourseClass.objects.all()
     serializer_class = UserClassSerializer
+    parser_classes = [FormParser, MultiPartParser]
 
     def perform_create(self, serializer):
         # Set created_by and modified_by on creation

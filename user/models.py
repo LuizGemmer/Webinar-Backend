@@ -33,8 +33,6 @@ class CustomUserManager(UserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to="uploads/profile_pictures")
 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -51,3 +49,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self) -> str:
         return self.email
+    
+class UserProfile(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to="uploads/profile_pictures")
+    about_me = models.TextField(blank=True)
+    serial_number = models.CharField(max_length=255, blank=True)
