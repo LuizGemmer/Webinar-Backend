@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from ..models import Subsector
 
-from .function_serializers import FunctionSerializer
+from .function_serializers import EmbededFunctionSerializer
 
 class AdminSubsectorSerializer(serializers.ModelSerializer):
 
@@ -31,4 +31,4 @@ class SubsectorSerializer(serializers.ModelSerializer):
     def get_functions(self, obj):
         user = self.context.get('user')
         functions = obj.functions.filter(user_functions__user=user)
-        return FunctionSerializer(functions, many=True, context={'user': user}).data
+        return EmbededFunctionSerializer(functions, many=True, context={'user': user}).data

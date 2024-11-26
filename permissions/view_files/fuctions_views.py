@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from ..models import Function, Sector
 
-from ..serializers_files.function_serializers import AdminFunctionSerializer
+from ..serializers_files.function_serializers import AdminFunctionSerializer, FunctionSerializer
 from ..serializers_files.sector_serializers import SectorSerializer
 
 #
@@ -28,3 +28,19 @@ class GetUserFunctionListView(generics.ListAPIView):
         ).all().distinct()
         serializer = SectorSerializer(sectors, many=True, context={'user': request.user})
         return Response(serializer.data)
+    
+class GetFunctionByIdWithUserPercentComplete(generics.RetrieveAPIView):
+    serializer_class = FunctionSerializer
+    lookup_field = 'id'
+    queryset = Function.objects.all()
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['user'] = self.request.user
+        return context
+    
+
+
+
+    
+    

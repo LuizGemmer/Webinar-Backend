@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from ..models import UserFunctionPermissions
-from .function_serializers import FunctionSerializer
+from .function_serializers import EmbededFunctionSerializer
 
 user = get_user_model()
 
@@ -15,7 +15,7 @@ class BasicUserSerializer(serializers.ModelSerializer):
         read_only_fields=["email"]
 
 class FunctionPermissionViewSerializer(serializers.ModelSerializer):
-    function = FunctionSerializer()
+    function = EmbededFunctionSerializer()
     user = BasicUserSerializer()
     created_by = BasicUserSerializer()
     modified_by = BasicUserSerializer()
