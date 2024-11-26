@@ -27,3 +27,6 @@ class CourseFunction(models.Model):
         , on_delete=models.CASCADE
         , related_name="course_functions"
     )
+
+    def __str__(self) -> str:
+        return f'{self.course} & {self.function}'

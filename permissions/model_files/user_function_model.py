@@ -99,3 +99,6 @@ class UserFunctionPermissions(models.Model):
 
         # If no record exists, proceed with normal save
         return super().save(*args, **kwargs)
+    
+    def __str__(self) -> str:
+        return f'{self.user} & {self.function}'
