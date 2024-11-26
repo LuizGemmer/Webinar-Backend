@@ -25,7 +25,6 @@ class GetUserCoursesByFunctionId(generics.ListAPIView):
 
         courses = Course.objects.filter(
             course_functions__function_id = function_id,
-            user_history__user = user
         ).prefetch_related(
             'user_history'
         )
