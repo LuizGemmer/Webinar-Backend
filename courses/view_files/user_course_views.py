@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from ..models import UserCourseHistory, Course
 
 from ..serializers_files.courses_serializers import FunctionCoursesWithUserCompletePercentSerializer
+from ..serializers_files.user_course_history_serializers import SubmitUserCourseHistorySerializer
 
 class GetUserCoursesByFunctionId(generics.ListAPIView):
     """
@@ -30,3 +31,12 @@ class GetUserCoursesByFunctionId(generics.ListAPIView):
         )
 
         return courses
+    
+class SubmitUserCourseCompletion(generics.CreateAPIView):
+    """
+    A view to submit the user course as completed.
+    This view will set the user course history instance to submited,
+    preventing further modifications to the data. 
+    """
+    queryset = UserCourseHistory.objects.all()
+    serializer_class = SubmitUserCourseHistorySerializer

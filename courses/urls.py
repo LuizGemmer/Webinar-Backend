@@ -13,6 +13,11 @@ router.register(r'classes', UserClassViewSet, basename="class")
 urlpatterns = [
     path('classes/get_classes_by_course_id/<uuid:id>/', GetClassesByCourse.as_view(), name="class-by-course"),
     path(
+        'courses/submit_user_course_completion/'
+        , SubmitUserCourseCompletion.as_view()
+        , name="submit-user-course-completion"
+    ),
+    path(
         'courses/get_user_courses_by_function_id/<uuid:id>/', 
         GetUserCoursesByFunctionId.as_view(), 
         name="function-courses-with-user-complete-percent"

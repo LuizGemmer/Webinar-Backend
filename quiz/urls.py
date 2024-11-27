@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .view_files.quiz_views import QuizViewSet
+from .view_files.quiz_views import QuizViewSet, GetQuizesByRelatedClassID
 from .view_files.choice_views import ChoicesViewSet, GetChoicesByQuestion
 from .view_files.question_views import QuestionViewSet, GetQuestionsByQuiz
 from .view_files.user_choices_views import UserChoicesViewSet
@@ -19,6 +19,8 @@ urlpatterns = [
     path('', include(router.urls)),
     
     path('question/by_quiz_id/<uuid:id>/', GetQuestionsByQuiz.as_view(), name='question-by-quiz'),
+    
+    path('quiz/get_quizes_by_function_id/<uuid:id>/', GetQuizesByRelatedClassID.as_view(), name='get-quizes-by-function-id'),
 
     path('choices/by_question_id/<uuid:id>/', GetChoicesByQuestion.as_view(), name='choices-by-question'),
 

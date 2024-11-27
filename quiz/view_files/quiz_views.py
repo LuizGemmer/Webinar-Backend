@@ -26,3 +26,11 @@ class QuizViewSet(viewsets.ModelViewSet):
         instance.modified_by = self.request.user
         instance.save(update_fields=['is_active', 'modified_by'])
 
+class GetQuizesByRelatedClassID(generics.ListAPIView):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizCRUDSerializer
+    
+    def get_queryset(self):
+        function_id = self.kwargs['id']
+        return Quiz.objects.filter(related_class_id=function_id)
+
