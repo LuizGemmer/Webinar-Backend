@@ -3,6 +3,8 @@ import uuid
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
+from django.db.models.signals import post_save
+
 
 # Create your models here.
 class CustomUserManager(UserManager):
@@ -50,24 +52,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.email
     
-    def save(self):
-        if not self.profile:
-            profile = UserProfile()
-            profile.name = self.email.split('@')[0]
-            profile.save()
-
-        return super.save()
-    
 class UserProfile(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     profile_picture = models.ImageField(upload_to="uploads/profile_pictures")
     about_me = models.TextField(blank=True)
     serial_number = models.CharField(max_length=255, blank=True)
 
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User
         , related_name='profile'
         , on_delete=models.PROTECT
         , blank=True
         , null=True
     )
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        default_username = instance.email.split('@')[0]
+        UserProfile.objects.create(user=instance, name=default_username)
+
+post_save.connect(create_user_profile, sender=User)
