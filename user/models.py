@@ -50,8 +50,24 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.email
     
+    def save(self):
+        if not self.profile:
+            profile = UserProfile()
+            profile.name = self.email.split('@')[0]
+            profile.save()
+
+        return super.save()
+    
 class UserProfile(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     profile_picture = models.ImageField(upload_to="uploads/profile_pictures")
     about_me = models.TextField(blank=True)
     serial_number = models.CharField(max_length=255, blank=True)
+
+    user = models.ForeignKey(
+        User
+        , related_name='profile'
+        , on_delete=models.PROTECT
+        , blank=True
+        , null=True
+    )
