@@ -10,7 +10,7 @@ class CoursesStaffViewSet(viewsets.ModelViewSet):
     User will only be able to create courses for the sectors, subsectors and functions
     he is in. Except for staff and superusers. 
     """
-    queryset = Course.objects.all()
+    queryset = Course.objects.filter(is_active=True)
     serializer_class = StaffCourseSerializer
 
     def perform_create(self, serializer):
@@ -20,10 +20,4 @@ class CoursesStaffViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         # TODO evaluate user permissions
         serializer.save(modified_by=self.request.user)
-
-    def perform_destroy(self, instance):
-        # TODO evaluate user permissions
-        instance.is_active = False
-        instance.modified_by = self.request.user
-        instance.save(update_fields=['is_active', 'modified_by'])
 

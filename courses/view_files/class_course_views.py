@@ -8,7 +8,7 @@ class UserClassViewSet(viewsets.ModelViewSet):
     '''
     View set to CRUD the items to the user
     '''
-    queryset = CourseClass.objects.all()
+    queryset = CourseClass.objects.filter(is_active=True)
     serializer_class = UserClassSerializer
     parser_classes = [FormParser, MultiPartParser]
 
@@ -30,9 +30,9 @@ class GetClassesByCourse(generics.ListAPIView):
     '''
     Retrieve all classes of a course
     '''
-    queryset = CourseClass.objects.all()
+    queryset = CourseClass.objects.filter(is_active=True)
     serializer_class = UserClassSerializer
 
     def get_queryset(self):
         course_id = self.kwargs.get('id')
-        return CourseClass.objects.filter(course_id=course_id)
+        return CourseClass.objects.filter(course_id=course_id, is_active=True)

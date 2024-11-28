@@ -12,7 +12,7 @@ class ChoicesViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing quiz instances.
     """
-    queryset = Choices.objects.all()
+    queryset = Choices.objects.filter(is_active=True)
     serializer_class = ChoicesCRUDSerializer
     permission_classes = [IsAuthenticated]
 
@@ -36,4 +36,4 @@ class GetChoicesByQuestion(generics.ListAPIView):
 
     def get_queryset(self):
         question_id = self.kwargs['id']
-        return Choices.objects.filter(question_id=question_id)
+        return Choices.objects.filter(question_id=question_id).filter(is_active=True)

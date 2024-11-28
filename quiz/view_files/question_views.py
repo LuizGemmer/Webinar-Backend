@@ -8,7 +8,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing quiz instances.
     """
-    queryset = Question.objects.all()
+    queryset = Question.objects.filter(is_active=True)
     serializer_class = QuestionCRUDSerializer
     permission_classes = [IsAuthenticated]
 
@@ -31,4 +31,4 @@ class GetQuestionsByQuiz(generics.ListAPIView):
 
     def get_queryset(self):
         quiz_id = self.kwargs['id']
-        return Question.objects.filter(quiz_id=quiz_id)
+        return Question.objects.filter(quiz_id=quiz_id).filter(is_active=True)

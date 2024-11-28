@@ -14,7 +14,7 @@ class FunctionViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing function instances.
     """
-    queryset = Function.objects.all()
+    queryset = Function.objects.filter(is_active=True)
     serializer_class = AdminFunctionSerializer
 
 class GetUserFunctionListView(generics.ListAPIView):
@@ -32,7 +32,7 @@ class GetUserFunctionListView(generics.ListAPIView):
 class GetFunctionByIdWithUserPercentComplete(generics.RetrieveAPIView):
     serializer_class = FunctionSerializer
     lookup_field = 'id'
-    queryset = Function.objects.all()
+    queryset = Function.objects.filter(is_active=True)
 
     def get_serializer_context(self):
         context = super().get_serializer_context()

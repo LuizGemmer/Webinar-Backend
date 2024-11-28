@@ -8,7 +8,7 @@ class UserChoicesViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing quiz instances.
     """
-    queryset = UserChoices.objects.all()
+    queryset = UserChoices.objects.filter(is_active=True)
     serializer_class = UserChoisesCRUDSerializer
     permission_classes = [IsAuthenticated]
 
