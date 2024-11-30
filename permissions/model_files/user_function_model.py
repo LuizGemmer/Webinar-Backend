@@ -66,14 +66,14 @@ class UserFunctionPermissions(models.Model):
         courses_to_complete = self.function.function_courses.all().count()
         courses_completed = self.get_courses_completed().count()
 
-        return courses_completed / courses_to_complete
+        return courses_completed / courses_to_complete * 100
     
     def status(self):
         if self.is_obsolete:
-            return "Obsolete"
+            return "obsolete"
         
-        if self.percent_completed() == 1:
-            return "Apt"
+        if self.percent_completed() == 100:
+            return "done"
         else:
             return "pending"
         
@@ -82,7 +82,7 @@ class UserFunctionPermissions(models.Model):
             is_submited=True
             , expire_date__gte=timezone.now()
             , course__course_functions__function=self.function
-        )
+        ).distinct('course_id')
     
     def save(self, *args, **kwargs):
         # Check if an instance with the same user and function already exists
