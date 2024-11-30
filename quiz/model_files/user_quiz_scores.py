@@ -55,8 +55,8 @@ class UserQuizScores(models.Model):
         # Checks if the choice was already submited, if true, prevents the update
         if self.pk:
             # TODO check for a way to do this without this extra query to the database
-            existing_instance = UserQuizScores.objects.get(id=self.id)
-            if existing_instance.is_submited:
+            existing_instance = UserQuizScores.objects.filter(id=self.id)
+            if len(existing_instance) != 0 and existing_instance[0].is_submited:
                 raise ValidationError("Cannot update an already submited answer!")
             
         super().save(*args, **kwargs)

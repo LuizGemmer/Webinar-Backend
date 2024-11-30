@@ -71,15 +71,14 @@ class UserChoices(models.Model):
         # Checks if the choice was already submited, if true, prevents the update
         if self.pk:
             # TODO check for a way to do this without this extra query to the database
-            existing_instance = UserChoices.objects.get(id=self.id)
-            if existing_instance.is_submited:
+            existing_instance = UserChoices.objects.filter(id=self.id)
+            if len(existing_instance) != 0 and existing_instance[0].is_submited:
                 raise ValidationError("Cannot update an already submited answer!")
 
         # TODO check if a choice already exists for the user and user_quiz_score
 
         # Sets the choice and question of the quiz
         self.question = self.choice.question
-        self.quiz = self.choice.question.quiz
 
         # Checks if the selectec choise is marked as correct
         self.is_correct = self.choice.is_correct

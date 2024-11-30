@@ -1,7 +1,7 @@
 # views.py
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
-from ..models import UserQuizScores
+from ..models import UserQuizScores, Quiz
 from ..serializer_files.user_quiz_scores_serializers import (
     UserQuizScoresCRUDSerializer
     , SubmitUserQuizScoreSerializer
@@ -21,7 +21,7 @@ class UserQuizScoresViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save()
 
-class SubmitUserQuizScoreView(generics.UpdateAPIView):
+class SubmitUserQuizScoreView(generics.CreateAPIView):
     """
     A view to submit the user quiz score.
     This view will set the user quiz score instace and related user choices to True,
@@ -30,4 +30,8 @@ class SubmitUserQuizScoreView(generics.UpdateAPIView):
     queryset = UserQuizScores.objects.filter(is_active=True)
     serializer_class = SubmitUserQuizScoreSerializer
     permission_classes = [IsAuthenticated]
-    lookup_field = 'id'
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['quiz'] = Quiz.objects.get(id=self.kwargs.get('id'))
+        return context
