@@ -78,10 +78,12 @@ class FunctionCoursesWithUserCompletePercentSerializer(serializers.ModelSerializ
         return max_expire_date
     
     def get_class_file_type(self, obj):
-        class_file_type = obj.courseclass_set.first().class_file_type
+        class_obj = obj.courseclass_set.first()
+        class_file_type = class_obj.class_file_type if class_obj else ''
         return class_file_type if class_file_type else ''
 
     def get_class_file(self, obj):
-        class_file = obj.courseclass_set.first().class_file.url
-        return class_file if class_file else ''
+        class_obj = obj.courseclass_set.first()
+        class_file_type = class_obj.class_file.url if class_obj else ''
+        return class_file_type if class_file_type else ''
 
