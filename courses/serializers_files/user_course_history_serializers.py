@@ -30,4 +30,6 @@ class SubmitUserCourseHistorySerializer(serializers.ModelSerializer):
         expire_date = save_time + timedelta(days=instance.course.expiration_time_in_days)
         instance.expire_date = expire_date.date()
 
+        instance.save()
+
         return instance
