@@ -2,7 +2,7 @@
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from ..models import Quiz
-from ..serializer_files.quiz_serializers import QuizCRUDSerializer
+from ..serializer_files.quiz_serializers import QuizCRUDSerializer, QuizWithUserAtemptSerializar
 
 class QuizViewSet(viewsets.ModelViewSet):
     """
@@ -28,7 +28,7 @@ class QuizViewSet(viewsets.ModelViewSet):
 
 class GetQuizesByRelatedClassID(generics.ListAPIView):
     queryset = Quiz.objects.all()
-    serializer_class = QuizCRUDSerializer
+    serializer_class = QuizWithUserAtemptSerializar
     
     def get_queryset(self):
         function_id = self.kwargs['id']

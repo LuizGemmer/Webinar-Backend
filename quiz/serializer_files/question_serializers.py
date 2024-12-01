@@ -3,6 +3,7 @@ from rest_framework import serializers
 from ..models import Question
 
 from .choice_serializers import UserChoicesSerializer
+from ..models import UserQuizScores
 
 class QuestionCRUDSerializer(serializers.ModelSerializer):
     choices_set = UserChoicesSerializer(many=True)
