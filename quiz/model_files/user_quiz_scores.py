@@ -92,7 +92,7 @@ class UserQuizScores(models.Model):
         """
         quiz_required_score = self.quiz.required_grade
         
-        if self.score and quiz_required_score:
+        if self.score != None and quiz_required_score != None:
             return self.score >= quiz_required_score
-        
+
         raise ValidationError("Either the quiz score or the required grade of the quiz is null!")
