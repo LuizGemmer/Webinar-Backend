@@ -2,9 +2,11 @@ from rest_framework import serializers
 
 from django.db.models import Max
 
-from ..models import Course, UserCourseHistory
+from ..models import Course, CourseFunction
+from permissions.models import Function
 
 class StaffCourseSerializer(serializers.ModelSerializer):
+    function = serializers.CharField(write_only=True)
 
     class Meta():
         model = Course
@@ -19,6 +21,7 @@ class StaffCourseSerializer(serializers.ModelSerializer):
             , "last_modified_date"
             , "created_by"
             , "modified_by"
+            , "function"
         ]
         read_only_fields = [
             "id"
@@ -27,6 +30,43 @@ class StaffCourseSerializer(serializers.ModelSerializer):
             , "created_by"
             , "modified_by"
         ]
+
+    def create(self, validated_data):
+        function = validated_data.pop('function', None)  # Pop the function argument if present
+
+        instance = super().create(validated_data)
+
+        if function:
+            self.create_course_function_relation(function, instance)
+
+        return instance
+
+    def update(self, instance, validated_data):
+        function = validated_data.pop('function', None)  # Pop the function argument if present
+
+        # Perform your action with the function argument here
+        # For example:
+        if function:
+            self.create_course_function_relation(function, instance)
+
+        instance = super().update(instance, validated_data)
+        return instance
+    
+    def create_course_function_relation(self, function, instance):
+        has_function_relation = instance.course_functions.filter(
+            course=self.instance, function=Function.objects.get(id=function)
+        )
+
+        if not has_function_relation:
+            course_funtions = CourseFunction()
+            course_funtions.course = instance
+            course_funtions.function = Function.objects.get(id=function)
+
+            course_funtions.save()
+
+
+    def get_function(self, obj):
+        return obj.courses_function.first().function.id
 
 class UserCourseSerializer(serializers.ModelSerializer):
 
