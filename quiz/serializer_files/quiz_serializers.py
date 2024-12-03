@@ -30,7 +30,7 @@ class QuizWithUserAtemptSerializar(serializers.ModelSerializer):
             'is_aproved': None
         }
 
-        if user_attempt.date_submited != None:
+        if user_attempt != None:
             user_attempt_data['date_submited'] = user_attempt.date_submited
             user_attempt_data['is_submited'] = user_attempt.is_submited
             user_attempt_data['is_aproved'] = user_attempt.is_aproved
